@@ -11,7 +11,7 @@ stages:
       variables:
         az_region: eastus
         resource_group_name: cloudproject
-        serviceconnection: cloudproject
+        serviceconnection: cloudprojectsp
         subscription: 'Visual Studio Enterprise'
         sa_prefix: cpstorage
         sa_container_name: cpblob
@@ -51,7 +51,7 @@ stages:
           provider: 'azurerm'
           command: 'init'
           workingDirectory: '$(System.DefaultWorkingDirectory)'
-          backendServiceArm: 'cloudproject'
+          backendServiceArm: 'cloudprojectsp'
           backendAzureRmResourceGroupName: '$(resource_group_name)'
           backendAzureRmStorageAccountName: '$(sa_prefix)'
           backendAzureRmContainerName: '$(sa_container_name)'
@@ -64,7 +64,7 @@ stages:
           command: 'plan'
           workingDirectory: '$(System.DefaultWorkingDirectory)'
           commandOptions: '-out=tfplan'
-          environmentServiceNameAzureRM: 'cloudproject'
+          environmentServiceNameAzureRM: 'cloudprojectsp'
 
       - task: TerraformTaskV3@3
         displayName: Terraform Apply
@@ -73,5 +73,5 @@ stages:
           command: 'apply'
           workingDirectory: '$(System.DefaultWorkingDirectory)'
           commandOptions: 'tfplan'
-          environmentServiceNameAzureRM: 'cloudproject'
+          environmentServiceNameAzureRM: 'cloudprojectsp'
 
