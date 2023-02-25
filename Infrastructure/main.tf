@@ -3,11 +3,6 @@ data "azurerm_resource_group" "rgkv" {
   name     = var.resource_group_name
 }
 
-# Service Principal Which is being used by AKS.
-data "azuread_service_principal" "cpspcon" {
-  display_name = "cloudproject"
-}
-
 data "azurerm_key_vault" "cpkeyvault" {
   name                = "cloudprojectkeyvault"
   resource_group_name = var.resource_group_name
@@ -15,6 +10,11 @@ data "azurerm_key_vault" "cpkeyvault" {
 
 data "azurerm_key_vault_secret" "clientId" {
   name         = "cpclientid"
+  key_vault_id = data.azurerm_key_vault.cpkeyvault.id
+}
+
+data "azurerm_key_vault_secret" "objectId" {
+  name         = "cpobjectid"
   key_vault_id = data.azurerm_key_vault.cpkeyvault.id
 }
 
@@ -59,7 +59,7 @@ resource "azurerm_log_analytics_solution" "cpsolution" {
 resource "azurerm_role_assignment" "role_acrpull" {
   scope                            = azurerm_container_registry.acr.id
   role_definition_name             = "AcrPull"
-  principal_id                     = data.azuread_service_principal.cpspcon.object_id
+  principal_id                     = "${data.azurerm_key_vault_secret.objectId.value}"
   skip_service_principal_aad_check = true
 }
 
