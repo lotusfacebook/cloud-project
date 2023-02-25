@@ -13,7 +13,7 @@ stages:
         resource_group_name: cloudproject
         serviceconnection: cloudprojectsp
         subscription: 'Visual Studio Enterprise'
-        sa_prefix: cpstorage
+        sa_prefix: cpstoragecloudproject
         sa_container_name: cpblob
         tfstateFile: terraform.tfstate
 
