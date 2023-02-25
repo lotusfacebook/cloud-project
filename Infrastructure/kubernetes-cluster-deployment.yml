@@ -50,7 +50,7 @@ stages:
         inputs:
           provider: 'azurerm'
           command: 'init'
-          workingDirectory: '$(System.DefaultWorkingDirectory)'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/Infrastructure'
           backendServiceArm: 'cloudprojectsp'
           backendAzureRmResourceGroupName: '$(resource_group_name)'
           backendAzureRmStorageAccountName: '$(sa_prefix)'
@@ -62,7 +62,7 @@ stages:
         inputs:
           provider: 'azurerm'
           command: 'plan'
-          workingDirectory: '$(System.DefaultWorkingDirectory)'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/Infrastructure'
           commandOptions: '-out=tfplan'
           environmentServiceNameAzureRM: 'cloudprojectsp'
 
@@ -71,7 +71,7 @@ stages:
         inputs:
           provider: 'azurerm'
           command: 'apply'
-          workingDirectory: '$(System.DefaultWorkingDirectory)'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/Infrastructure'
           commandOptions: 'tfplan'
           environmentServiceNameAzureRM: 'cloudprojectsp'
 
