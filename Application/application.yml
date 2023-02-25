@@ -20,7 +20,7 @@ steps:
     azureSubscription: 'cloudprojectsp'
     azureContainerRegistry: '{"loginServer":"cloudprojectacr.azurecr.io", "id" : "/subscriptions/f83d6612-187a-4680-bd9a-029b77f35af3/resourceGroups/cloudproject/providers/Microsoft.ContainerRegistry/registries/cpcontainer"}'
     action: 'Push an image'
-    imageName: 'cloudprojectacr.azurecr.io/cpcontainer:popularapp'
+    imageName: 'cloudprojectacr.azurecr.io/promiseuche/cloud-project:popularapp'
 
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
