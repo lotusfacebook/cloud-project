@@ -8,21 +8,6 @@ data "azurerm_key_vault" "cpkeyvault" {
   resource_group_name = var.resource_group_name
 }
 
-data "azurerm_key_vault_secret" "clientId" {
-  name         = "cpclientid"
-  key_vault_id = data.azurerm_key_vault.cpkeyvault.id
-}
-
-data "azurerm_key_vault_secret" "objectId" {
-  name         = "cpobjectid"
-  key_vault_id = data.azurerm_key_vault.cpkeyvault.id
-}
-
-data "azurerm_key_vault_secret" "clientSecret" {
-  name         = "cpclientsecret"
-  key_vault_id = data.azurerm_key_vault.cpkeyvault.id
-}
-
 data "azurerm_key_vault_secret" "idrsa" {
   name         = "idrsa"
   key_vault_id = data.azurerm_key_vault.cpkeyvault.id
@@ -59,7 +44,7 @@ resource "azurerm_log_analytics_solution" "cpsolution" {
 resource "azurerm_role_assignment" "role_acrpull" {
   scope                            = azurerm_container_registry.acr.id
   role_definition_name             = "AcrPull"
-  principal_id                     = "${data.azurerm_key_vault_secret.objectId.value}"
+  principal_id                     = azurerm_kubernetes_cluster.k8s.kubelet_identity[0].object_id
   skip_service_principal_aad_check = true
 }
 
@@ -96,8 +81,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     network_plugin    = "kubenet"
     load_balancer_sku = "standard"
   }
-  service_principal {
-    client_id     = "${data.azurerm_key_vault_secret.clientId.value}"
-    client_secret = "${data.azurerm_key_vault_secret.clientSecret.value}"
+  identity {
+    type = "SystemAssigned"
   }
 }
