@@ -1,41 +1,67 @@
 name: Application-Pipeline
 trigger: none
-pool:
-  name: Azure Pipelines
-steps:
-- task: Docker@0
-  displayName: 'Build an image'
-  inputs:
-    containerregistrytype: 'Azure Container Registry'
-    azureSubscription: 'cloudprojectsp'
-    azureContainerRegistry: '{"loginServer":"cloudprojectacr.azurecr.io", "id" : "/subscriptions/f83d6612-187a-4680-bd9a-029b77f35af3/resourceGroups/cloudproject/providers/Microsoft.ContainerRegistry/registries/cpcontainer"}'
-    action: 'Build an image'
-    dockerFile: '**/Dockerfile'
-    imageName: '$(Build.Repository.Name):popularapp'
+stages:
+  - stage: Build_Application
+    displayName: 'Build Application'
+    jobs:
+    - job: Build_Application
+      pool:
+        name: Azure Pipelines
+      steps:
+      - task: Docker@0
+        displayName: 'Build an image'
+        inputs:
+          containerregistrytype: 'Azure Container Registry'
+          azureSubscription: 'cloudprojectsp'
+          azureContainerRegistry: '{"loginServer":"cloudprojectacr.azurecr.io", "id" : "/subscriptions/f83d6612-187a-4680-bd9a-029b77f35af3/resourceGroups/cloudproject/providers/Microsoft.ContainerRegistry/registries/promiseuche"}'
+          action: 'Build an image'
+          dockerFile: '**/Dockerfile'
+          imageName: '$(Build.Repository.Name):popularapp'
 
-- task: Docker@0
-  displayName: 'Push an image'
-  inputs:
-    containerregistrytype: 'Azure Container Registry'
-    azureSubscription: 'cloudprojectsp'
-    azureContainerRegistry: '{"loginServer":"cloudprojectacr.azurecr.io", "id" : "/subscriptions/f83d6612-187a-4680-bd9a-029b77f35af3/resourceGroups/cloudproject/providers/Microsoft.ContainerRegistry/registries/cpcontainer"}'
-    action: 'Push an image'
-    imageName: 'cloudprojectacr.azurecr.io/promiseuche/cloud-project:popularapp'
+      - task: Docker@0
+        displayName: 'Push an image'
+        inputs:
+          containerregistrytype: 'Azure Container Registry'
+          azureSubscription: 'cloudprojectsp'
+          azureContainerRegistry: '{"loginServer":"cloudprojectacr.azurecr.io", "id" : "/subscriptions/f83d6612-187a-4680-bd9a-029b77f35af3/resourceGroups/cloudproject/providers/Microsoft.ContainerRegistry/registries/cpcontainer"}'
+          action: 'Push an image'
+          imageName: 'cloudprojectacr.azurecr.io/promiseuche/cloud-project:popularapp'
 
-- task: CopyFiles@2
-  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
-  inputs:
-    Contents: '**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    CleanTargetFolder: true
-    OverWrite: true
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+        inputs:
+          Contents: '**'
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+          CleanTargetFolder: true
+          OverWrite: true
+        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: drop'
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'drop'
+          publishLocation: 'Container'
+        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
+  - stage: Deploy_Application
+    displayName: 'Deploy Application'
+    jobs:
+    - job: Deploy_Application
+      pool:
+        name: Azure Pipelines
+      steps:
+      - task: KubectlInstaller@0
+        inputs:
+          kubectlVersion: 'latest' 
+      - task: Kubernetes@1
+        displayName: Apply kubernetes file
+        inputs:
+          connectionType: 'Azure Resource Manager'
+          azureSubscriptionEndpoint: 'cloudprojectsp'
+          azureResourceGroup: 'cloudproject'
+          kubernetesCluster: 'cloudproject'
+          namespace: 'default'
+          command: 'apply'
+          configurationType: 'configuration'
+          configuration: $(System.DefaultWorkingDirectory)/Application/kubernetes-deploy.yml
