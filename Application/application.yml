@@ -65,4 +65,4 @@ stages:
           command: 'apply'
           configurationType: 'configuration'
           configuration: $(System.DefaultWorkingDirectory)/Application/kubernetes-deploy.yml
-          arguments: -f $(System.DefaultWorkingDirectory)/Application/kubernetes-deploy.yml
+          arguments: '-f $(System.DefaultWorkingDirectory)/Application/kubernetes-deploy.yml'
