@@ -4,8 +4,8 @@ data "azurerm_resource_group" "rgkv" {
 }
 
 # Service Principal Which is being used by AKS.
-data "azuread_service_principal" "akssp" {
-    display_name = "cloudproject"
+data "azuread_service_principal" "cpspcon" {
+  display_name = "cloudproject"
 }
 
 data "azurerm_key_vault" "cpkeyvault" {
@@ -59,7 +59,7 @@ resource "azurerm_log_analytics_solution" "cpsolution" {
 resource "azurerm_role_assignment" "role_acrpull" {
   scope                            = azurerm_container_registry.acr.id
   role_definition_name             = "AcrPull"
-  principal_id                     = data.azuread_service_principal.akssp.object_id
+  principal_id                     = data.azuread_service_principal.cpspcon.object_id
   skip_service_principal_aad_check = true
 }
 
