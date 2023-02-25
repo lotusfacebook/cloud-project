@@ -23,7 +23,7 @@ variable "log_analytics_workspace_location" {
 }
 
 variable "log_analytics_workspace_name" {
-  default = "testLogAnalyticsWorkspaceName"
+  default = "cpLogAnalyticsWorkspaceName"
 }
 
 
