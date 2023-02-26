@@ -1,5 +1,6 @@
 name: Application-Pipeline
-trigger: none
+trigger:
+- main
 stages:
   - stage: Build_Application
     displayName: 'Build Application'
