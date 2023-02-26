@@ -1,4 +1,4 @@
-# CLOUD PROJECT
+# Cloud Project
 ---
 Focus: react-and-spring-data-rest
 
@@ -30,13 +30,13 @@ To see the frontend, navigate to http://localhost:8080. You are immediately redi
 
 ---
 
-# build the Maven application
+# Build the Maven application
 
 To build the Maven application, install Maven (https://maven.apache.org/) and build the spring boot application using the command "`mvn package`".
 This will build the java file that can be used to run the application. This java file is usually located in the target directory.
 To run the application after the build is done successfully, run this command "`java -jar target/*.jar`".
 
-# How to clone, configure and deploy the solution on your own cloud environment
+# How to clone, configure and deploy this solution
 
 - To clone this repository, simply run the command (`git clone https://github.com/promiseuche/cloud-project.git`).
 - You also need to ensure that you create a resource group called "cloudproject" before you proceed.
