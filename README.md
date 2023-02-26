@@ -30,7 +30,7 @@ To see the frontend, navigate to http://localhost:8080. You are immediately redi
 
 ---
 
-# Build the Maven application
+# Build the maven application
 
 To build the Maven application, install Maven (https://maven.apache.org/) and build the spring boot application using the command "`mvn package`".
 This will build the java file that can be used to run the application. This java file is usually located in the target directory.
