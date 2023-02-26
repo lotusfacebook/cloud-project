@@ -1,4 +1,4 @@
-# Read clientID and clientSecret from Azure keyvault
+# Read resource group and ssh key from Azure keyvault
 data "azurerm_resource_group" "rgkv" {
   name     = var.resource_group_name
 }
