@@ -13,7 +13,7 @@ stages:
         inputs:
           containerregistrytype: 'Azure Container Registry'
           azureSubscription: 'cloudprojectsp'
-          azureContainerRegistry: '{"loginServer":"cloudprojectacr.azurecr.io", "id" : "/subscriptions/f83d6612-187a-4680-bd9a-029b77f35af3/resourceGroups/cloudproject/providers/Microsoft.ContainerRegistry/registries/promiseuche"}'
+          azureContainerRegistry: '$(azurecontainerregistry)'
           action: 'Build an image'
           dockerFile: '**/Dockerfile'
           imageName: '$(Build.Repository.Name):popularapp'
@@ -23,7 +23,7 @@ stages:
         inputs:
           containerregistrytype: 'Azure Container Registry'
           azureSubscription: 'cloudprojectsp'
-          azureContainerRegistry: '{"loginServer":"cloudprojectacr.azurecr.io", "id" : "/subscriptions/f83d6612-187a-4680-bd9a-029b77f35af3/resourceGroups/cloudproject/providers/Microsoft.ContainerRegistry/registries/cpcontainer"}'
+          azureContainerRegistry: '$(azurecontainerregistry)'
           action: 'Push an image'
           imageName: 'cloudprojectacr.azurecr.io/promiseuche/cloud-project:popularapp'
 
