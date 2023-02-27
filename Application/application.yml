@@ -51,7 +51,7 @@ stages:
           configuration: $(System.DefaultWorkingDirectory)/Application/kubernetes-deploy.yml
           arguments: '-f $(System.DefaultWorkingDirectory)/Application/kubernetes-deploy.yml'
       - powershell: |
-          az login -u $(username) -p $(details)
+          az login --service-principal -u $(appid) -p $(pass) --tenant $(tenant)
           az account set --subscription $(subscription)
           az aks get-credentials --resource-group cloudproject --name cloudproject
           helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
