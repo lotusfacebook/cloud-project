@@ -24,7 +24,7 @@ metadata:
   name: springboot-app-svc
 spec:
   selector:
-    app: springboot-app-app
+    app: springboot-app
   ports:
     - protocol: TCP
       port: 8080
