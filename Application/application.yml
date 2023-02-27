@@ -50,3 +50,12 @@ stages:
           configurationType: 'configuration'
           configuration: $(System.DefaultWorkingDirectory)/Application/kubernetes-deploy.yml
           arguments: '-f $(System.DefaultWorkingDirectory)/Application/kubernetes-deploy.yml'
+      - powershell: |
+          az login --identity --username 7db87e42-0914-4f44-bebc-807edb59b18a
+          az account set --subscription f83d6612-187a-4680-bd9a-029b77f35af3
+          az aks get-credentials --resource-group cloudproject --name cloudproject
+          helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+          helm repo update
+          kubectl create ns prometheus
+          helm install prometheus prometheus-community/kube-prometheus-stack -n prometheus
+        name: Deploy_Prometheus_Graphana
