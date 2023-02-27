@@ -69,6 +69,10 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     name       = "agentpool"
     vm_size    = "Standard_D2_v2"
     node_count = var.agent_count
+    enable_auto_scaling  = true
+    max_count            = 3
+    min_count            = 1
+    type                 = "VirtualMachineScaleSets"
   }
   linux_profile {
     admin_username = "ubuntu"
