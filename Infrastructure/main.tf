@@ -4,7 +4,7 @@ data "azurerm_resource_group" "rgkv" {
 }
 
 data "azurerm_key_vault" "cpkeyvault" {
-  name                = "cloudprojectkeyvault"
+  name                = "cloudprojectkeyvaults"
   resource_group_name = var.resource_group_name
 }
 

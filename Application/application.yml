@@ -1,6 +1,6 @@
 name: Application-Pipeline
 trigger:
-- main
+#- main
 stages:
   - stage: Build_Application
     displayName: 'Build Application'
