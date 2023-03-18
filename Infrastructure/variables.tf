@@ -42,7 +42,7 @@ variable "resource_group_name_prefix" {
 }
 
 variable "acr_name" {
-  default = "cloudprojectacr"
+  default = "cloudprojectsacr"
 }
 
 variable "resource_group_name" {
