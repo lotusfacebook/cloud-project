@@ -1,6 +1,6 @@
 name: $(year:yyyy).$(Month).$(DayOfMonth)$(rev:.r)
 trigger: 
-#- main
+# - main
 
 stages:
   - stage: Deploy_Cluster
