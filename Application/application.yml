@@ -26,7 +26,7 @@ stages:
           azureSubscription: 'cloudprojectsp'
           azureContainerRegistry: '$(azurecontainerregistry)'
           action: 'Push an image'
-          imageName: 'cloudprojectacr.azurecr.io/promiseuche/cloud-project:popularapp'
+          imageName: 'cloudprojectsacr.azurecr.io/promiseuche/cloud-project:popularapp'
 
   - stage: Deploy_Application
     displayName: 'Deploy Application'
